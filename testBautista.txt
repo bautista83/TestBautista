@@ -1,0 +1,63 @@
+using System;
+					
+public class Program
+{
+	public static void Main()
+	{
+		var maxCantidad = 0;
+            var cantidad = 1;
+
+            //todas las posibilidades
+            int[] x = { -1, -1, -1, 0, 0, 1, 1, 1 };
+            int[] y = { -1, 0, 1, -1, 1, -1, 0, 1 };
+
+            char[,] grid = { 
+                            {'B', 'B', 'D', 'A', 'D', 'P', 'G'},
+                            {'B', 'X', 'C', 'D', 'A', 'G', 'K'},
+                            {'H', 'Y', 'I', 'F', 'G', 'D', '3'},
+                            {'R', '7', 'A', 'G', 'G', 'D', '2'},
+                            {'W', 'C', 'G', 'P', 'E', '0', 'D'},
+                            {'A', 'G', 'C', 'D', 'D', 'E', 'F'},
+                            {'G', 'J', 'J', 'J', 'J', 'J', 'K'} };
+
+            
+            var pivotFinal = grid[0, 0];
+
+            var rowLength = grid.GetLength(0);
+            var colLength  = grid.GetLength(1);
+
+            for (int row = 0; row < rowLength; row++)
+            {
+                for (int col = 0; col < colLength; col++)
+                {
+                    var pivot = grid[row, col];
+
+                    for (int dir = 0; dir < 8; dir++)
+                    {
+
+                        int rd = row + x[dir], cd = col + y[dir];
+                        while (rd < rowLength && rd >= 0 && cd < colLength && cd >= 0)
+                        {
+                            if (pivot != grid[rd, cd])
+                            {
+                                break;
+                            }
+                            rd += x[dir];
+                            cd += y[dir];
+                            cantidad++;
+                        }
+                        if (maxCantidad < cantidad)
+                        {
+                            pivotFinal = pivot;
+                            maxCantidad = cantidad;
+                        }
+                        cantidad = 1;
+                    }
+                }
+            }
+            for (int print = 0; print < maxCantidad; print++)
+            {
+                Console.WriteLine(pivotFinal);
+            }
+	}
+}
